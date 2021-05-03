@@ -6,8 +6,8 @@ async function addElementForProgressBar() {
 
     target.before(add);
     //cssを追加
-    add.style.margin = "20px";
-    add.style.width = '95%';
+    add.style.margin = "1%";
+    add.style.width = '98%';
     add.style.height = '8px';
     return
 }
