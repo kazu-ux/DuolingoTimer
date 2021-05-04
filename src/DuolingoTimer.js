@@ -31,7 +31,8 @@ async function addProgressBar() {
                 color: "#000",
                 position: 'relative',
                 left: '50%',
-                bottom: "500%",
+                bottom: "1200%",
+                fontSize: "500%",
             }
         },
     });
@@ -41,7 +42,6 @@ async function addProgressBar() {
     })
 
     const interval = setInterval(() => {
-
         if (inputSeconds > 0) {
             bar.setText(inputSeconds -= 1)
         } else { clearInterval(interval); }
