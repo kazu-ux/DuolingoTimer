@@ -9,7 +9,6 @@ async function addElementForProgressBar() {
     add.style.margin = "1%";
     add.style.width = '98%';
     add.style.height = '8px';
-
     return
 }
 
