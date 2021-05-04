@@ -39,7 +39,7 @@ async function addProgressBar() {
     bar.animate(-1, {
         duration: inputSeconds * 1000,
         easing: 'linear',
-    })
+    }, clickElement())
 
     const interval = setInterval(() => {
         if (inputSeconds > 0) {
@@ -47,6 +47,15 @@ async function addProgressBar() {
         } else { clearInterval(interval); }
         console.log("ループ確認用")
     }, 1000);
+}
+
+function clickElement() {
+    const isButton = document.querySelector('._1KqTg').parentElement.getAttribute("disabled");
+    if (isButton == null) {
+        document.querySelector('._1KqTg').click();
+    } else if (isButton == "") {
+        document.querySelector("textarea").focus();
+    }
 }
 
 async function main() {
