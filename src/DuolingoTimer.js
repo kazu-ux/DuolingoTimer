@@ -12,9 +12,11 @@ async function addElementForProgressBar() {
     return
 }
 
+//プログレスバーを追加する
 async function addProgressBar() {
     //ユーザーが指定した秒数
-    const seconds = 60;
+    let inputSeconds = 11;
+
     const bar = new ProgressBar.Line(container, {
         strokeWidth: 4,
         easing: 'easeInOut',
@@ -25,16 +27,26 @@ async function addProgressBar() {
         svgStyle: { width: '100%', height: '100%' }
     });
     bar.set(1);
-    let count = 1000;
+
+    //引くべき数値
+    const calcSeconds = await calc(inputSeconds);
+    console.log(calcSeconds);
+
+    let count = 1;
     const interval = setInterval(() => {
-        count -= 1 / seconds * 1000
-        if (count >= 0) {
-            bar.set(count / 1000);
+        count -= calcSeconds;
+        if (inputSeconds >= 0) {
+            bar.set(count);
+            inputSeconds -= 1;
             console.log(count);
         } else { clearInterval(interval); };
         console.log("ループ確認用")
     }, 1000);
+}
 
+//引くべき数字を求める
+async function calc(number) {
+    return Math.round((1 / number) * 100000) / 100000
 }
 
 async function main() {
