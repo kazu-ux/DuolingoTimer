@@ -79,6 +79,7 @@ function clickElement() {
 async function main() {
     //await addElementForProgressBar();
     //await addProgressBar();
+    await getTargetElement();
 }
 
 document.addEventListener("load",
