@@ -1,14 +1,26 @@
 //プログレスバーを追加する場所を用意する
+
+//出題画面かそれ以外かを判定
+async function isSkillUrl() {
+    const pattern = new RegExp("https://www.duolingo.com/.*practice")
+    const url = location.href;
+    if (pattern.test(url)) {
+        return true;
+    }
+}
+//1問につき一度だけ実行する
 async function addElementForProgressBar() {
+    const target = document.getElementsByClassName("mQ0GW")[0];
     const add = document.createElement("div");
     add.setAttribute("id", "container")
-    const target = document.getElementsByClassName("o3j99 c93Gbe")[0];
+
 
     target.before(add);
     //cssを追加
     add.style.margin = "1%";
     add.style.width = '98%';
     add.style.height = '8px';
+    add.style.top = '92%';
     return
 }
 
@@ -31,15 +43,17 @@ async function addProgressBar() {
                 color: "#000",
                 position: 'relative',
                 left: '50%',
-                bottom: "1200%",
-                fontSize: "500%",
+                bottom: "600%",
+                fontSize: "200%",
             }
         },
     });
     bar.animate(-1, {
         duration: inputSeconds * 1000,
         easing: 'linear',
-    })
+    },
+        //clickElement()
+    )
 
     const interval = setInterval(() => {
         if (inputSeconds > 0) {
@@ -49,9 +63,26 @@ async function addProgressBar() {
     }, 1000);
 }
 
+function clickElement() {
+    const isButton = document.querySelector('._1KqTg').parentElement.getAttribute("disabled");
+    if (isButton == null) {
+        document.querySelector('._1KqTg').click();
+    } else if (isButton == "") {
+        document.querySelector('[data-test="player-skip"]').click();
+    }
+}
+
 async function main() {
-    await addElementForProgressBar();
-    await addProgressBar();
+    //await addElementForProgressBar();
+    //await addProgressBar();
+    setInterval(async () => {
+        if (await isSkillUrl() && !document.getElementById("container")) {
+            await addElementForProgressBar();
+            await addProgressBar();
+            console.log("test");
+        }
+
+    }, 1000);
 }
 
 document.addEventListener("load",
