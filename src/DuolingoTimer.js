@@ -1,8 +1,26 @@
 //プログレスバーを追加する場所を用意する
+
+async function getTargetElement() {
+    const interval = setInterval(() => {
+        const url = location.href;
+        const pattern = new RegExp("https://www.duolingo.com/skill/.*")
+        if (pattern.test(url)) {
+            console.log(url);
+            return
+            //clearInterval(interval);
+        } else {
+            console.log(url);
+            return
+        }
+    }, 1000);
+
+}
+//1問につき一度だけ実行する
 async function addElementForProgressBar() {
+    let target = null;
     const add = document.createElement("div");
     add.setAttribute("id", "container")
-    const target = document.getElementsByClassName("o3j99 c93Gbe")[0];
+
 
     target.before(add);
     //cssを追加
@@ -54,13 +72,13 @@ function clickElement() {
     if (isButton == null) {
         document.querySelector('._1KqTg').click();
     } else if (isButton == "") {
-        document.querySelector("textarea").focus();
+        document.querySelector('[data-test="player-skip"]').click();
     }
 }
 
 async function main() {
-    await addElementForProgressBar();
-    await addProgressBar();
+    //await addElementForProgressBar();
+    //await addProgressBar();
 }
 
 document.addEventListener("load",
