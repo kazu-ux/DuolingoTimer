@@ -12,29 +12,28 @@ async function addElementForProgressBar() {
     return
 }
 
+//プログレスバーを追加する
 async function addProgressBar() {
     //ユーザーが指定した秒数
-    const seconds = 60;
+    let inputSeconds = 30;
+
     const bar = new ProgressBar.Line(container, {
-        strokeWidth: 4,
+        strokeWidth: 1,
         easing: 'easeInOut',
         duration: 1400,
-        color: '#FFEA82',
-        trailColor: '#eee',
-        trailWidth: 1,
+        color: '#eee',
+        trailColor: '#FFEA82',
+        trailWidth: 4,
         svgStyle: { width: '100%', height: '100%' }
     });
-    bar.set(1);
-    let count = 1000;
+    bar.animate(-1, {
+        duration: inputSeconds * 1000,
+        easing: 'linear',
+    })
+
     const interval = setInterval(() => {
-        count -= 1 / seconds * 1000
-        if (count >= 0) {
-            bar.set(count / 1000);
-            console.log(count);
-        } else { clearInterval(interval); };
         console.log("ループ確認用")
     }, 1000);
-
 }
 
 async function main() {
