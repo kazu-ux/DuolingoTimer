@@ -1,23 +1,16 @@
 //プログレスバーを追加する場所を用意する
 
-async function getTargetElement() {
-    const interval = setInterval(() => {
-        const url = location.href;
-        const pattern = new RegExp("https://www.duolingo.com/skill/.*")
-        if (pattern.test(url)) {
-            console.log(url);
-            return
-            //clearInterval(interval);
-        } else {
-            console.log(url);
-            return
-        }
-    }, 1000);
-
+//出題画面かそれ以外かを判定
+async function isSkillUrl() {
+    const pattern = new RegExp("https://www.duolingo.com/.*practice")
+    const url = location.href;
+    if (pattern.test(url)) {
+        return true;
+    }
 }
 //1問につき一度だけ実行する
 async function addElementForProgressBar() {
-    let target = null;
+    const target = document.getElementsByClassName("mQ0GW")[0];
     const add = document.createElement("div");
     add.setAttribute("id", "container")
 
@@ -27,6 +20,7 @@ async function addElementForProgressBar() {
     add.style.margin = "1%";
     add.style.width = '98%';
     add.style.height = '8px';
+    add.style.top = '92%';
     return
 }
 
@@ -49,15 +43,17 @@ async function addProgressBar() {
                 color: "#000",
                 position: 'relative',
                 left: '50%',
-                bottom: "1200%",
-                fontSize: "500%",
+                bottom: "600%",
+                fontSize: "200%",
             }
         },
     });
     bar.animate(-1, {
         duration: inputSeconds * 1000,
         easing: 'linear',
-    }, clickElement())
+    },
+        //clickElement()
+    )
 
     const interval = setInterval(() => {
         if (inputSeconds > 0) {
@@ -79,7 +75,14 @@ function clickElement() {
 async function main() {
     //await addElementForProgressBar();
     //await addProgressBar();
-    await getTargetElement();
+    setInterval(async () => {
+        if (await isSkillUrl() && !document.getElementById("container")) {
+            await addElementForProgressBar();
+            await addProgressBar();
+            console.log("test");
+        }
+
+    }, 1000);
 }
 
 document.addEventListener("load",
