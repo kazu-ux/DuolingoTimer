@@ -13,6 +13,8 @@ async function addElementForProgressBar() {
 }
 
 async function addProgressBar() {
+    //ユーザーが指定した秒数
+    const seconds = 60;
     const bar = new ProgressBar.Line(container, {
         strokeWidth: 4,
         easing: 'easeInOut',
@@ -22,7 +24,17 @@ async function addProgressBar() {
         trailWidth: 1,
         svgStyle: { width: '100%', height: '100%' }
     });
-    bar.animate(0.5);
+    bar.set(1);
+    let count = 1000;
+    const interval = setInterval(() => {
+        count -= 1 / seconds * 1000
+        if (count >= 0) {
+            bar.set(count / 1000);
+            console.log(count);
+        } else { clearInterval(interval); };
+        console.log("ループ確認用")
+    }, 1000);
+
 }
 
 async function main() {
