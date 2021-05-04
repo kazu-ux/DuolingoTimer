@@ -22,7 +22,7 @@ async function addProgressBar() {
         trailWidth: 1,
         svgStyle: { width: '100%', height: '100%' }
     });
-    bar.animate(1);
+    bar.animate(0.5);
 }
 
 async function main() {
