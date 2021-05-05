@@ -133,7 +133,6 @@ function clickElement() {
     } catch (error) {
         return false
     }
-
 }
 
 async function main() {
