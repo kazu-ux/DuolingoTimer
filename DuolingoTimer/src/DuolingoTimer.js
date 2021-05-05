@@ -1,5 +1,3 @@
-//プログレスバーを追加する場所を用意する
-
 //出題画面かそれ以外かを判定
 async function isSkillUrl() {
     const pattern1 = new RegExp("https://www.duolingo.com/skill/.*");
@@ -23,9 +21,8 @@ async function isCheckTheAnswer() {
     } catch (error) {
         return "error"
     }
-
-
 }
+
 //問題を始めた時に一度だけ実行する
 async function addElementForProgressBar() {
 
@@ -121,7 +118,6 @@ async function addProgressBar() {
             bar.destroy();
             clearInterval(interval2);
         }
-
     }, 100);
 }
 
@@ -144,18 +140,15 @@ async function main() {
     let count = 0;
     setInterval(async () => {
         if (await isSkillUrl()) {
+            //一度だけ呼び出す
             if (count == 0) {
                 await addElementForProgressBar();
                 await addProgressBar();
                 await isNextQuestion();
-
-                //console.log("メイン関数");
                 count += 1;
             };
         } else { count = 0; };
     }, 1000);
 };
 
-document.addEventListener("load",
-    main()
-)
+document.addEventListener("load", main())
