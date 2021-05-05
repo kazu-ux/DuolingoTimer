@@ -4,20 +4,26 @@
 async function isSkillUrl() {
     const pattern1 = new RegExp("https://www.duolingo.com/skill/.*");
     const pattern2 = new RegExp("https://www.duolingo.com/checkpoint/.*");
+    const pattern3 = new RegExp("https://www.duolingo.com/practice");
     const url = location.href;
-    if (pattern1.test(url) || pattern2.test(url)) {
+    if (pattern1.test(url) || pattern2.test(url) || pattern3.test(url)) {
         return true;
     }
 }
 
 //答え合わせ画面かどうかを判定
 async function isCheckTheAnswer() {
-    const target = document.getElementById("session/PlayerFooter");
-    const targetClassName = target.getAttribute("class");
-    if (targetClassName == "YQ0lZ _2LMXW _3vF5k _3iFZd" || targetClassName == "YQ0lZ _2LMXW _3e9O1 _3iFZd") {
-        console.log(target);
-        return true;
-    } else { return false; }
+    try {
+        const target = document.getElementById("session/PlayerFooter");
+        const targetClassName = target.getAttribute("class");
+        if (targetClassName == "YQ0lZ _2LMXW _3vF5k _3iFZd" || targetClassName == "YQ0lZ _2LMXW _3e9O1 _3iFZd") {
+            console.log(target);
+            return true;
+        } else { return false; }
+    } catch (error) {
+        return
+    }
+
 
 }
 //問題を始めた時に一度だけ実行する
@@ -121,12 +127,17 @@ async function addProgressBar() {
 
 //タイムオーバー時のクリックイベント処理
 function clickElement() {
-    const isButton = document.querySelector('._1KqTg').parentElement.getAttribute("disabled");
-    if (isButton == null) {
-        document.querySelector('._1KqTg').click();
-    } else if (isButton == "") {
-        document.querySelector('[data-test="player-skip"]').click();
+    try {
+        const isButton = document.querySelector('._1KqTg').parentElement.getAttribute("disabled");
+        if (isButton == null) {
+            document.querySelector('._1KqTg').click();
+        } else if (isButton == "") {
+            document.querySelector('[data-test="player-skip"]').click();
+        }
+    } catch (error) {
+        return
     }
+
 }
 
 async function main() {
