@@ -21,7 +21,7 @@ async function isCheckTheAnswer() {
             return true;
         } else { return false; }
     } catch (error) {
-        return
+        return "error"
     }
 
 
@@ -105,7 +105,7 @@ async function addProgressBar() {
         } else {
             clearInterval(interval);
         }
-        console.log("ループ確認用")
+        console.log(inputSeconds)
     }, 1000);
 
     bar.animate(-1, {
@@ -135,7 +135,7 @@ function clickElement() {
             document.querySelector('[data-test="player-skip"]').click();
         }
     } catch (error) {
-        return
+        return false
     }
 
 }
