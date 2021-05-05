@@ -120,8 +120,9 @@ async function addProgressBar() {
             } finally {
                 clearInterval(interval2);
             }
-
-
+        } else if (test === "error") {
+            clearInterval(interval2);
+            clearInterval(interval);
         }
     }, 100);
 }
