@@ -1,0 +1,21 @@
+{
+    "name": "DuolingoTimer",
+    "version": "0.1",
+    "manifest_version": 2,
+    "description": "Duolingoに制限時間を追加します。",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.duolingo.com/learn"
+            ],
+            "js": [
+                "DuolingoTimer.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "tabs",
+        "cookies",
+        "https://page.auctions.yahoo.co.jp/*"
+    ]
+}
