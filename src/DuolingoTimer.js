@@ -79,8 +79,10 @@ async function addProgressBar() {
     bar.animate(-1, {
         duration: inputSeconds * 1000,
         easing: 'linear',
-    },
-        //clickElement()
+    }, () => {
+        clickElement();
+    }
+
     )
 
     const interval = setInterval(() => {
