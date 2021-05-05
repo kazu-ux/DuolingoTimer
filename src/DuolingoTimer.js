@@ -2,29 +2,38 @@
 
 //出題画面かそれ以外かを判定
 async function isSkillUrl() {
-    const pattern = new RegExp("https://www.duolingo.com/.*practice")
+    const pattern1 = new RegExp("https://www.duolingo.com/skill/.*");
+    const pattern2 = new RegExp("https://www.duolingo.com/checkpoint/.*");
     const url = location.href;
-    if (pattern.test(url)) {
+    if (pattern1.test(url) || pattern2.test(url)) {
         return true;
     }
 }
-//1問につき一度だけ実行する
-async function addElementForProgressBar() {
-    try {
-        document.querySelector('#container').remove();
-    } finally {
-        const target = document.getElementsByClassName("mQ0GW")[0];
-        const add = document.createElement("div");
-        add.setAttribute("id", "container")
 
-        target.before(add);
-        //cssを追加
-        add.style.margin = "1%";
-        add.style.width = '98%';
-        add.style.height = '8px';
-        add.style.top = '92%';
-        return
-    }
+//答え合わせ画面かどうかを判定
+async function isCheckTheAnswer() {
+    const target = document.getElementById("session/PlayerFooter");
+    const targetClassName = target.getAttribute("class");
+    if (targetClassName == "YQ0lZ _2LMXW _3vF5k _3iFZd" || targetClassName == "YQ0lZ _2LMXW _3e9O1 _3iFZd") {
+        console.log(target);
+        return true;
+    } else { return false; }
+
+}
+//問題を始めた時に一度だけ実行する
+async function addElementForProgressBar() {
+
+    const target = document.getElementsByClassName("mQ0GW")[0];
+    const add = document.createElement("div");
+    add.setAttribute("id", "container")
+
+    target.before(add);
+    //cssを追加
+    add.style.margin = "1%";
+    add.style.width = '98%';
+    add.style.height = '8px';
+    add.style.top = '92%';
+    return
 }
 
 //次の問題に行ったかどうかを判定する
@@ -40,7 +49,6 @@ async function isNextQuestion() {
             const observer = new MutationObserver(() => {
                 clearTimeout(timer)
                 timer = setTimeout(async () => {
-                    await addElementForProgressBar();
                     await addProgressBar();
                 }, 500);
             });
@@ -48,14 +56,15 @@ async function isNextQuestion() {
                 childList: true,
             });
         };
-    }, 1000);
+    }, 100);
     return
 };
 
 //プログレスバーを追加する
 async function addProgressBar() {
+    document.querySelector("#container").innerHTML = "";
     //ユーザーが指定した秒数
-    let inputSeconds = 10;
+    let inputSeconds = 20;
 
     const bar = new ProgressBar.Line(container, {
         strokeWidth: 1,
@@ -76,21 +85,38 @@ async function addProgressBar() {
             }
         },
     });
+    //カウントダウンタイマー
+    const interval = setInterval(() => {
+        if (inputSeconds > 0) {
+            try {
+                bar.setText(inputSeconds -= 1);
+            } catch (error) {
+                clearInterval(interval);
+            }
+        } else if (inputSeconds == 0) {
+            clickElement();
+            clearInterval(interval);
+        } else {
+            clearInterval(interval);
+        }
+        console.log("ループ確認用")
+    }, 1000);
+
     bar.animate(-1, {
         duration: inputSeconds * 1000,
         easing: 'linear',
     }, () => {
-        clickElement();
-    }
+    });
+    const interval2 = setInterval(async () => {
+        const test = await isCheckTheAnswer()
+        console.log(test);
+        if (test) {
+            console.log('test');
+            bar.destroy();
+            clearInterval(interval2);
+        }
 
-    )
-
-    const interval = setInterval(() => {
-        if (inputSeconds > 0) {
-            bar.setText(inputSeconds -= 1)
-        } else { clearInterval(interval); }
-        console.log("ループ確認用")
-    }, 1000);
+    }, 100);
 }
 
 //タイムオーバー時のクリックイベント処理
@@ -104,16 +130,15 @@ function clickElement() {
 }
 
 async function main() {
-    //await addElementForProgressBar();
-    //await addProgressBar();
     let count = 0;
     setInterval(async () => {
-        if (await isSkillUrl() && !document.getElementById("container")) {
+        if (await isSkillUrl()) {
             if (count == 0) {
                 await addElementForProgressBar();
                 await addProgressBar();
                 await isNextQuestion();
-                console.log("メイン関数");
+
+                //console.log("メイン関数");
                 count += 1;
             };
         } else { count = 0; };
