@@ -67,7 +67,7 @@ async function isNextQuestion() {
 async function addProgressBar() {
     document.querySelector("#container").innerHTML = "";
     //ユーザーが指定した秒数
-    let inputSeconds = 20;
+    let inputSeconds = 40;
 
     const bar = new ProgressBar.Line(container, {
         strokeWidth: 1,
@@ -113,10 +113,16 @@ async function addProgressBar() {
     const interval2 = setInterval(async () => {
         const test = await isCheckTheAnswer()
         console.log(test);
-        if (test) {
+        if (test === true) {
             console.log('test');
-            bar.destroy();
+            try {
+                bar.destroy();
+            } finally {
+                clearInterval(interval2);
+            }
+        } else if (test === "error") {
             clearInterval(interval2);
+            clearInterval(interval);
         }
     }, 100);
 }
@@ -131,7 +137,7 @@ function clickElement() {
             document.querySelector('[data-test="player-skip"]').click();
         }
     } catch (error) {
-        return false
+        return "error";
     }
 }
 
