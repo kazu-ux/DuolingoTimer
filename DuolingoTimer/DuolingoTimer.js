@@ -24,20 +24,24 @@ async function isCheckTheAnswer() {
 }
 
 //問題を始めた時に一度だけ実行する
-async function addElementForProgressBar() {
+const addElementForProgressBar = () => new Promise((resolve, reject) => {
+    const interval = setInterval(() => {
+        const target = document.getElementsByClassName("mQ0GW")[0];
+        if (target) {
+            clearInterval(interval);
+            const add = document.createElement("div");
+            add.setAttribute("id", "container");
 
-    const target = document.getElementsByClassName("mQ0GW")[0];
-    const add = document.createElement("div");
-    add.setAttribute("id", "container")
-
-    target.before(add);
-    //cssを追加
-    add.style.margin = "1%";
-    add.style.width = '98%';
-    add.style.height = '8px';
-    add.style.top = '92%';
-    return
-}
+            target.before(add);
+            //cssを追加
+            add.style.margin = "1%";
+            add.style.width = '98%';
+            add.style.height = '8px';
+            add.style.top = '92%';
+            resolve(true);
+        }
+    }, 100);
+})
 
 //次の問題に行ったかどうかを判定する
 async function isNextQuestion() {
@@ -64,7 +68,7 @@ async function isNextQuestion() {
 };
 
 //プログレスバーを追加する
-async function addProgressBar() {
+const addProgressBar = () => {
     document.querySelector("#container").innerHTML = "";
     //ユーザーが指定した秒数
     let inputSeconds = 40;
@@ -147,10 +151,10 @@ async function main() {
         if (await isSkillUrl()) {
             //一度だけ呼び出す
             if (count == 0) {
-                await addElementForProgressBar();
-                await addProgressBar();
-                await isNextQuestion();
                 count += 1;
+                await addElementForProgressBar();
+                addProgressBar();
+                await isNextQuestion();
             };
         } else { count = 0; };
     }, 1000);
