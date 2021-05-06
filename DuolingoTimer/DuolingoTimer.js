@@ -68,10 +68,10 @@ async function isNextQuestion() {
 };
 
 //プログレスバーを追加する
-const addProgressBar = () => {
+const addProgressBar = (inputSeconds) => {
     document.querySelector("#container").innerHTML = "";
     //ユーザーが指定した秒数
-    let inputSeconds = 40;
+    //let inputSeconds = 40;
 
     const bar = new ProgressBar.Line(container, {
         strokeWidth: 1,
@@ -145,6 +145,20 @@ function clickElement() {
     }
 }
 
+//chromeストレージにアクセス
+const choromeStorage = () => new Promise((resolve) => {
+    chrome.storage.local.clear();
+    chrome.storage.local.get("TimerSeconds", (value) => {
+        console.log(value.TimerSeconds);
+        if (value.TimerSeconds === undefined) {
+            chrome.storage.local.set({ "TimerSeconds": 60 });
+            chrome.storage.local.get("TimerSeconds", (value) => { resolve(value.TimerSeconds); });
+        } else {
+            chrome.storage.local.get("TimerSeconds", (value) => { resolve(value.TimerSeconds); });
+        }
+    })
+})
+
 async function main() {
     let count = 0;
     setInterval(async () => {
@@ -153,7 +167,8 @@ async function main() {
             if (count == 0) {
                 count += 1;
                 await addElementForProgressBar();
-                addProgressBar();
+                //console.log(await choromeStorage())
+                addProgressBar(Number(await choromeStorage()));
                 await isNextQuestion();
             };
         } else { count = 0; };
