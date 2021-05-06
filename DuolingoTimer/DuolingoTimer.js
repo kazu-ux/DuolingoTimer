@@ -68,7 +68,9 @@ async function isNextQuestion() {
 };
 
 //プログレスバーを追加する
-const addProgressBar = (inputSeconds) => {
+const addProgressBar = async () => {
+    let seconds = Number(await choromeStorage());
+
     document.querySelector("#container").innerHTML = "";
     //ユーザーが指定した秒数
     //let inputSeconds = 40;
@@ -82,7 +84,7 @@ const addProgressBar = (inputSeconds) => {
         trailWidth: 4,
         svgStyle: { width: '100%', height: '100%' },
         text: {
-            value: inputSeconds,
+            value: seconds,
             style: {
                 color: "#000",
                 position: 'relative',
@@ -94,23 +96,23 @@ const addProgressBar = (inputSeconds) => {
     });
     //カウントダウンタイマー
     const interval = setInterval(() => {
-        if (inputSeconds > 0) {
+        if (seconds > 0) {
             try {
-                bar.setText(inputSeconds -= 1);
+                bar.setText(seconds -= 1);
             } catch (error) {
                 clearInterval(interval);
             }
-        } else if (inputSeconds == 0) {
+        } else if (seconds == 0) {
             clickElement();
             clearInterval(interval);
         } else {
             clearInterval(interval);
         }
-        console.log(inputSeconds)
+        console.log(seconds)
     }, 1000);
 
     bar.animate(-1, {
-        duration: inputSeconds * 1000,
+        duration: seconds * 1000,
         easing: 'linear',
     }, () => {
     });
@@ -147,7 +149,7 @@ function clickElement() {
 
 //chromeストレージにアクセス
 const choromeStorage = () => new Promise((resolve) => {
-    chrome.storage.local.clear();
+    //chrome.storage.local.clear();
     chrome.storage.local.get("TimerSeconds", (value) => {
         console.log(value.TimerSeconds);
         if (value.TimerSeconds === undefined) {
@@ -168,7 +170,7 @@ async function main() {
                 count += 1;
                 await addElementForProgressBar();
                 //console.log(await choromeStorage())
-                addProgressBar(Number(await choromeStorage()));
+                addProgressBar();
                 await isNextQuestion();
             };
         } else { count = 0; };
