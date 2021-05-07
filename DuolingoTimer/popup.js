@@ -27,7 +27,7 @@ const interval = setInterval(() => {
         clearInterval(interval);
         buttonEvent(button);
         chrome.storage.local.get("TimerSeconds", (seconds) => {
-            document.querySelector("input").value = Number(seconds);
+            document.querySelector("input").value = Number(seconds.TimerSeconds);
             console.log(seconds.TimerSeconds);
         });
     }
