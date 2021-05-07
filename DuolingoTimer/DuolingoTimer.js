@@ -15,7 +15,7 @@ async function isCheckTheAnswer() {
         const target = document.getElementById("session/PlayerFooter");
         const targetClassName = target.getAttribute("class");
         if (targetClassName == "YQ0lZ _2LMXW _3vF5k _3iFZd" || targetClassName == "YQ0lZ _2LMXW _3e9O1 _3iFZd") {
-            console.log(target);
+            //console.log(target);
             return true;
         } else { return false; }
     } catch (error) {
@@ -107,7 +107,7 @@ const addProgressBar = async () => {
         } else {
             clearInterval(interval);
         }
-        console.log(seconds)
+        //console.log(seconds)
     }, 1000);
 
     bar.animate(-1, {
@@ -117,9 +117,9 @@ const addProgressBar = async () => {
     });
     const interval2 = setInterval(async () => {
         const test = await isCheckTheAnswer()
-        console.log(test);
+        //console.log(test);
         if (test === true) {
-            console.log('test');
+            //console.log('test');
             try {
                 bar.destroy();
             } finally {
@@ -150,7 +150,7 @@ function clickElement() {
 const choromeStorage = () => new Promise((resolve) => {
     //chrome.storage.local.clear();
     chrome.storage.local.get("TimerSeconds", (value) => {
-        console.log(value.TimerSeconds);
+        //console.log(value.TimerSeconds);
         if (value.TimerSeconds === undefined) {
             chrome.storage.local.set({ "TimerSeconds": 60 });
             chrome.storage.local.get("TimerSeconds", (value) => { resolve(value.TimerSeconds); });
