@@ -37,7 +37,7 @@ const addElementForProgressBar = () => new Promise((resolve, reject) => {
             add.style.margin = "1%";
             add.style.width = '98%';
             add.style.height = '8px';
-            add.style.top = '92%';
+            add.style.top = '76%';
             resolve(true);
         }
     }, 100);
@@ -88,7 +88,6 @@ const addProgressBar = async () => {
             style: {
                 color: "#000",
                 position: 'relative',
-                left: '50%',
                 bottom: "600%",
                 fontSize: "200%",
             }
