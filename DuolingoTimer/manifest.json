@@ -3,6 +3,9 @@
     "version": "0.1",
     "manifest_version": 2,
     "description": "Duolingoに制限時間を追加します。",
+    "icons": {
+        "128": "icons/icon128.png"
+    },
     "content_scripts": [
         {
             "matches": [
