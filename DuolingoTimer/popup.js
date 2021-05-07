@@ -26,8 +26,14 @@ const interval = setInterval(() => {
     if (button) {
         clearInterval(interval);
         buttonEvent(button);
+        //保存されている秒数をインプットに表示する
         chrome.storage.local.get("TimerSeconds", (seconds) => {
-            document.querySelector("input").value = Number(seconds.TimerSeconds);
+            if (seconds.TimerSeconds) {
+                document.querySelector("input").value = Number(seconds.TimerSeconds);
+            } else {
+                document.querySelector("input").value = 60;
+            }
+
             console.log(seconds.TimerSeconds);
         });
     }
