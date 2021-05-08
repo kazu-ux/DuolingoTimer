@@ -6,8 +6,8 @@ async function isSkillUrl() {
     const url = location.href;
     if (pattern1.test(url) || pattern2.test(url) || pattern3.test(url)) {
         return true;
-    }
-}
+    };
+};
 
 //答え合わせ画面かどうかを判定
 async function isCheckTheAnswer() {
@@ -17,11 +17,11 @@ async function isCheckTheAnswer() {
         if (targetClassName == "YQ0lZ _2LMXW _3vF5k _3iFZd" || targetClassName == "YQ0lZ _2LMXW _3e9O1 _3iFZd") {
             //console.log(target);
             return true;
-        } else { return false; }
+        } else { return false; };
     } catch (error) {
         return "error"
-    }
-}
+    };
+};
 
 //問題を始めた時に一度だけ実行する
 const addElementForProgressBar = () => new Promise((resolve, reject) => {
@@ -72,8 +72,6 @@ const addProgressBar = async () => {
     let seconds = Number(await choromeStorage());
 
     document.querySelector("#container").innerHTML = "";
-    //ユーザーが指定した秒数
-    //let inputSeconds = 40;
 
     const bar = new ProgressBar.Line(container, {
         strokeWidth: 1,
@@ -113,7 +111,6 @@ const addProgressBar = async () => {
     bar.animate(-1, {
         duration: seconds * 1000,
         easing: 'linear',
-    }, () => {
     });
     const interval2 = setInterval(async () => {
         const test = await isCheckTheAnswer()
