@@ -173,4 +173,9 @@ async function main() {
     }, 1000);
 };
 
-document.addEventListener("load", main())
+//document.addEventListener("load", main());
+
+chrome.runtime.onMessage.addListener(() => {
+    //main(illustDatas);
+    alert("test");
+});
