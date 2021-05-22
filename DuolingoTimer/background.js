@@ -10,10 +10,11 @@ const isSkillUrl = async (url = String()) => {
     };
 };
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     //console.log(tabId, changeInfo, tab);
-    if (changeInfo.status === 'complete' && isSkillUrl(tab.url)) {
+    if (changeInfo.status === 'complete' && await isSkillUrl(tab.url)) {
         console.log(tabId, changeInfo, tab);
+        chrome.tabs.sendMessage(tabId, "");
     };
 });
 
@@ -27,7 +28,7 @@ const getTabId = () => new Promise((resolve, reject) => {
 let count = 0;
 chrome.webRequest.onResponseStarted.addListener(async (details) => {
     const url = details.url;
-    console.log(url);
+    //console.log(url);
     if (url === 'https://excess.duolingo.com/challenge_response/batch') {
         //chrome.tabs.sendMessage(await getTabId(), "");
         console.log(url, "回答した");
@@ -38,5 +39,3 @@ chrome.webRequest.onResponseStarted.addListener(async (details) => {
     };
 
 }, { urls: ["<all_urls>"] });
-
-//chrome.declarativeNetRequest.getEnabledRulesets(rulesetIds => console.log(rulesetIds));
