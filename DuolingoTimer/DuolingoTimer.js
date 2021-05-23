@@ -4,10 +4,11 @@ const isSkillUrl = async () => {
   const pattern2 = new RegExp('https://www.duolingo.com/checkpoint/.*');
   const pattern3 = new RegExp('https://www.duolingo.com/practice');
   const url = window.location.href;
+  console.log(url);
   if (pattern1.test(url) || pattern2.test(url) || pattern3.test(url)) {
     return true;
   }
-  return true;
+  return false;
 };
 
 // 答え合わせ画面かどうかを判定
@@ -161,6 +162,7 @@ const choromeStorage = () => new Promise((resolve) => {
 async function main() {
   let count = 0;
   setInterval(async () => {
+    console.log(count);
     if (await isSkillUrl()) {
       // 一度だけ呼び出す
       if (count === 0) {
