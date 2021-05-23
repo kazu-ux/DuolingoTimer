@@ -1,5 +1,6 @@
 console.log('test');
 
+/*
 const isSkillUrl = async (url = String()) => {
   const pattern1 = new RegExp('https://www.duolingo.com/skill/.*');
   const pattern2 = new RegExp('https://www.duolingo.com/checkpoint/.*');
@@ -35,10 +36,11 @@ chrome.webRequest.onHeadersReceived.addListener(async (details) => {
     chrome.tabs.sendMessage(await getTabId(), 'answer');
     console.log(url, '回答した');
     count = 0;
-  } /* else if (url.includes("CORRECT_Cropped.json") && count === 0) {
+  } else if (url.includes("CORRECT_Cropped.json") && count === 0) {
         count += 1;
         console.log('次の問題に行った');
-    }; */
+    };
 }, { urls: ['<all_urls>'] });
 
 chrome.runtime.onMessage.addListener((response) => { console.log(response); });
+*/
