@@ -1,14 +1,3 @@
-//出題画面かそれ以外かを判定
-async function isSkillUrl() {
-    const pattern1 = new RegExp("https://www.duolingo.com/skill/.*");
-    const pattern2 = new RegExp("https://www.duolingo.com/checkpoint/.*");
-    const pattern3 = new RegExp("https://www.duolingo.com/practice");
-    const url = location.href;
-    if (pattern1.test(url) || pattern2.test(url) || pattern3.test(url)) {
-        return true;
-    };
-};
-
 //答え合わせ画面かどうかを判定
 async function isCheckTheAnswer() {
     try {
@@ -158,19 +147,15 @@ const choromeStorage = () => new Promise((resolve) => {
 })
 
 async function main() {
-    let count = 0;
-    setInterval(async () => {
-        if (await isSkillUrl()) {
-            //一度だけ呼び出す
-            if (count == 0) {
-                count += 1;
-                await addElementForProgressBar();
-                //console.log(await choromeStorage())
-                addProgressBar();
-                await isNextQuestion();
-            };
-        } else { count = 0; };
-    }, 1000);
+    await addElementForProgressBar();
+    //console.log(await choromeStorage())
+    addProgressBar();
+    await isNextQuestion();
 };
 
-document.addEventListener("load", main())
+//document.addEventListener("load", main());
+
+chrome.runtime.onMessage.addListener(() => {
+    main();
+    //alert("test");
+});

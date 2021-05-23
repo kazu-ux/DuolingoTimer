@@ -1,0 +1,26 @@
+{
+  "name": "duolingotimer",
+  "version": "1.0.0",
+  "description": "Duolingoに時間制限を追加するChrome用拡張機能です。   This is a Chrome extension that sets a time limit for Duolingo.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kazu-ux/DuolingoTimer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kazu-ux/DuolingoTimer/issues"
+  },
+  "homepage": "https://github.com/kazu-ux/DuolingoTimer#readme"
+}
