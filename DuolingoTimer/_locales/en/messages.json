@@ -1,0 +1,23 @@
+{
+  "ext_name": {
+    "message": "Duolingo Timer"
+  },
+  "ext_description": {
+    "message": "Install a Timer in Duolingo."
+  },
+  "title": {
+    "message": "Timer(10~600s)"
+  },
+  "saveButton": {
+    "message": "Save"
+  },
+  "checkInteger": {
+    "message": "Please enter an integer."
+  },
+  "checkRange": {
+    "message": "Please enter a value in the range of 10~600."
+  },
+  "sevedMessage": {
+    "message": "Saved."
+  }
+}
