@@ -1,10 +1,26 @@
-// 答え合わせ画面かどうかを判定
+// 出題画面かそれ以外かを判定
+const isSkillUrl = async () => {
+  const pattern1 = new RegExp('https://www.duolingo.com/skill/.*');
+  const pattern2 = new RegExp('https://www.duolingo.com/checkpoint/.*');
+  const pattern3 = new RegExp('https://www.duolingo.com/practice');
+  const url = window.location.href;
+  if (pattern1.test(url) || pattern2.test(url) || pattern3.test(url)) {
+    return true;
+  }
+  return false;
+};
+
+// 答え合わせ画面かどうか、最後の答え合わせ画面かを判定
 const isCheckTheAnswer = async () => {
   try {
     const target = document.getElementById('session/PlayerFooter');
     const targetClassName = target.getAttribute('class');
-    if (targetClassName === 'YQ0lZ _2LMXW _3vF5k _3iFZd' || targetClassName === 'YQ0lZ _2LMXW _3e9O1 _3iFZd') {
-      // console.log(target);
+    const targetButtonClassName = target.querySelector('button').getAttribute('class');
+    if (
+      targetClassName === 'YQ0lZ _2LMXW _3vF5k _3iFZd'
+      || targetClassName === 'YQ0lZ _2LMXW _3e9O1 _3iFZd'
+      || targetButtonClassName.includes('_2ugbF')
+    ) {
       return true;
     } return false;
   } catch (error) {
@@ -32,29 +48,6 @@ const addElementForProgressBar = () => new Promise((resolve) => {
   }, 100);
 });
 
-// 次の問題に行ったかどうかを判定する
-const isNextQuestion = async () => {
-  // 要素が現れるまで待つ
-  const interval = setInterval(() => {
-    const target = document.querySelector('.jWza5');
-    if (target) {
-      let timer = null;
-
-      clearInterval(interval);
-      // 一度だけ検出されればよいので、二度目以降の検出を無効にする処理を書く
-      const observer = new MutationObserver(() => {
-        clearTimeout(timer);
-        timer = setTimeout(async () => {
-          await addProgressBar();
-        }, 500);
-      });
-      observer.observe(target, {
-        childList: true,
-      });
-    }
-  }, 100);
-};
-
 // プログレスバーを追加する
 const addProgressBar = async () => {
   let seconds = Number(await choromeStorage());
@@ -79,40 +72,45 @@ const addProgressBar = async () => {
       },
     },
   });
-  // カウントダウンタイマー
-  const interval = setInterval(() => {
-    if (seconds > 0) {
-      try {
-        bar.setText(seconds -= 1);
-      } catch (error) {
-        clearInterval(interval);
-      }
-    } else if (seconds === 0) {
-      clickElement();
-      clearInterval(interval);
-    } else {
-      clearInterval(interval);
-    }
-    // console.log(seconds)
-  }, 1000);
 
   bar.animate(-1, {
     duration: seconds * 1000,
     easing: 'linear',
   });
-  const interval2 = setInterval(async () => {
-    const test = await isCheckTheAnswer();
-    // console.log(test);
-    if (test === true) {
-      // console.log('test');
+  // カウントダウンタイマー
+  const countDown = setInterval(() => {
+    if (seconds > 0) {
       try {
-        bar.destroy();
-      } finally {
-        clearInterval(interval2);
+        bar.setText(seconds -= 1);
+      } catch (error) {
+        clearInterval(countDown);
       }
-    } else if (test === 'error') {
+    } else if (seconds === 0) {
+      clickElement();
+      clearInterval(countDown);
+    } else {
+      clearInterval(countDown);
+    }
+  }, 1000);
+
+  let count = null;
+  const interval2 = setInterval(async () => {
+    const isCheckingAnswer = await isCheckTheAnswer();
+    if (isCheckingAnswer === true) {
+      if (bar.path) {
+        bar.destroy();
+      }
+      count = 0;
+    } else if (isCheckingAnswer === 'error') {
+      count = null;
       clearInterval(interval2);
-      clearInterval(interval);
+      clearInterval(countDown);
+      main();
+    } else if (count === 0) {
+      count += 1;
+      clearInterval(interval2);
+      clearInterval(countDown);
+      addProgressBar();
     }
   }, 100);
 };
@@ -136,21 +134,28 @@ const clickElement = () => {
 const choromeStorage = () => new Promise((resolve) => {
   // chrome.storage.local.clear();
   chrome.storage.local.get('TimerSeconds', (value) => {
-    // console.log(value.TimerSeconds);
     if (value.TimerSeconds === undefined) {
       chrome.storage.local.set({ TimerSeconds: 60 });
-      chrome.storage.local.get('TimerSeconds', (value) => { resolve(value.TimerSeconds); });
+      resolve(60);
     } else {
-      chrome.storage.local.get('TimerSeconds', (value) => { resolve(value.TimerSeconds); });
+      resolve(value.TimerSeconds);
     }
   });
 });
 
 const main = async () => {
-  await addElementForProgressBar();
-  // console.log(await choromeStorage())
-  addProgressBar();
-  await isNextQuestion();
+  let count = 0;
+  const checkURL = setInterval(async () => {
+    if (await isSkillUrl()) {
+      // 一度だけ呼び出す
+      if (count === 0) {
+        count += 1;
+        await addElementForProgressBar();
+        addProgressBar();
+        clearInterval(checkURL);
+      }
+    } else { count = 0; }
+  }, 1000);
 };
 
 document.addEventListener('load', main());

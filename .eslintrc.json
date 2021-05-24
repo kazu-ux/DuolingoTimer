@@ -25,6 +25,7 @@
         ]
     },
     "globals": {
-        "ProgressBar": true
+        "ProgressBar": true,
+        "window": true
     }
 }

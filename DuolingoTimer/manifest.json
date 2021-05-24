@@ -18,18 +18,8 @@
         }
     ],
     "permissions": [
-        "tabs",
-        "storage",
-        "declarativeNetRequest",
-        "declarativeNetRequestFeedback",
-        "webRequest"
+        "storage"
     ],
-    "host_permissions": [
-        "*://*.duolingo.com/*"
-    ],
-    "background": {
-        "service_worker": "background.js"
-    },
     "action": {
         "default_popup": "popup.html"
     }
