@@ -1,0 +1,23 @@
+{
+  "ext_name": {
+    "message": "Duolingo Timer"
+  },
+  "ext_description": {
+    "message": "Duolingoに制限時間を追加します。"
+  },
+  "title": {
+    "message": "タイマー(10~600秒)"
+  },
+  "saveButton": {
+    "message": "保存"
+  },
+  "checkInteger": {
+    "message": "整数を入力してください"
+  },
+  "checkRange": {
+    "message": "10~600までの範囲で入力してください"
+  },
+  "sevedMessage": {
+    "message": "保存しました"
+  }
+}
