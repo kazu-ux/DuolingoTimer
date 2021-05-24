@@ -102,14 +102,12 @@ const addProgressBar = async () => {
       }
       count = 0;
     } else if (isCheckingAnswer === 'error') {
-      console.log(count);
       count = null;
       clearInterval(interval2);
       clearInterval(countDown);
       main();
     } else if (count === 0) {
       count += 1;
-      console.log('次の問題に行った');
       clearInterval(interval2);
       clearInterval(countDown);
       addProgressBar();
@@ -149,7 +147,6 @@ const choromeStorage = () => new Promise((resolve) => {
 const main = async () => {
   let count = 0;
   const checkURL = setInterval(async () => {
-    console.log('test');
     if (await isSkillUrl()) {
       // 一度だけ呼び出す
       if (count === 0) {
