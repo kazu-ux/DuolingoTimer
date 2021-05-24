@@ -2,14 +2,19 @@
 const buttonEvent = (button) => {
   button.addEventListener('click', () => {
     const { value } = document.querySelector('input');
-    if (value > 0 && value <= 600) {
+    if (value >= 10 && value <= 600 && !value.includes('.')) {
       chrome.storage.local.set({ TimerSeconds: value });
       document.querySelector('#seved').textContent = '保存しました';
       setTimeout(() => {
         document.querySelector('#seved').innerHTML = '';
       }, 3000);
+    } else if (value.includes('.')) {
+      document.querySelector('#seved').textContent = '整数を入力してください';
+      setTimeout(() => {
+        document.querySelector('#seved').innerHTML = '';
+      }, 3000);
     } else {
-      document.querySelector('#seved').textContent = '1~600までの範囲で入力してください';
+      document.querySelector('#seved').textContent = '10~600までの範囲で入力してください';
       setTimeout(() => {
         document.querySelector('#seved').innerHTML = '';
       }, 3000);

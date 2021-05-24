@@ -111,7 +111,6 @@ const addProgressBar = async () => {
       clearInterval(interval2);
       clearInterval(countDown);
       addProgressBar();
-      // count += 1;
     }
   }, 100);
 };
